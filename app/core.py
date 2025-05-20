@@ -5,6 +5,7 @@
 # app/core.py
 
 import json
+import re
 from sh import Command, ErrorReturnCode
 from app.logger import logger
 from app.utils import generate_job_id, create_job_dir
@@ -13,7 +14,7 @@ from app.config import BASE_DIR, DEFAULT_CHARGE, DEFAULT_UHF, DEFAULT_GFN, OPT_B
 
 def run_xtb_optimization(
     file_bytes: bytes,
-    filename: str,  # ✅ 新增参数：真实上传文件名
+    filename: str,
     charge: int = DEFAULT_CHARGE,
     uhf: int = DEFAULT_UHF,
     gfn: int = DEFAULT_GFN,
@@ -21,15 +22,6 @@ def run_xtb_optimization(
 ) -> dict:
     """
     Run xTB optimization on the uploaded file.
-    args:
-        file_bytes (bytes): The bytes of the uploaded file.
-        filename (str): The name of the uploaded file.
-        charge (int): The charge of the molecule.
-        uhf (int): The UHF value.
-        gfn (int): The GFN level.
-        xtb_path (str): Path to the xTB executable.
-    returns:
-        dict: A dictionary containing the job ID, status, and other information.
     """
     job_id = generate_job_id()
     job_path = create_job_dir(job_id)
@@ -47,7 +39,7 @@ def run_xtb_optimization(
 
     xtb = Command(xtb_path)
     cmd = [
-        filename,  
+        filename,
         "--opt",
         "--gfn", str(gfn),
         "--charge", str(charge),
@@ -77,23 +69,30 @@ def run_xtb_optimization(
             "error": str(e)
         }
 
-    # Parse energy from xtbopt.xyz
+    # Parse energy and gradient norm from xtbopt.xyz
     energy = None
+    gradient = None
     opt_xyz = job_path / "xtbopt.xyz"
     if opt_xyz.exists():
         try:
             with open(opt_xyz, "r") as f:
                 for line in f:
-                    if "energy" in line.lower():
-                        energy = float(line.strip().split()[2])
-        except Exception:
-            logger.warning("Failed to parse energy from xtbopt.xyz.")
+                    match_energy = re.search(r"energy:\s*(-?\d+\.\d+)", line.lower())
+                    match_gradient = re.search(r"gnorm:\s*(-?\d+\.\d+)", line.lower())
+                    if match_energy:
+                        energy = float(match_energy.group(1))
+                    if match_gradient:
+                        gradient = float(match_gradient.group(1))
+                    if energy is not None and gradient is not None:
+                        break
+        except Exception as e:
+            logger.warning(f"Failed to parse energy or gradient: {e}")
 
     meta = {
         "job_id": job_id,
         "converged": True,
         "energy": energy,
-        "gradient_norm": None,
+        "gradient_norm": gradient,
         "fmax": 0.1
     }
     (job_path / "meta.json").write_text(json.dumps(meta, indent=2))
@@ -102,7 +101,7 @@ def run_xtb_optimization(
         "job_id": job_id,
         "status": "success",
         "energy": energy,
-        "gradient_norm": None,
+        "gradient_norm": gradient,
         "message": "Optimization complete.",
         "download_url": f"/download/{job_id}",
         "log_url": f"/download/{job_id}/log"
