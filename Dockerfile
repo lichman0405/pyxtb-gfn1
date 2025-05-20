@@ -49,7 +49,7 @@ WORKDIR /app
 COPY . /app
 
 # 安装 Python 依赖
-RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # 启动 FastAPI 服务
 EXPOSE 8000
