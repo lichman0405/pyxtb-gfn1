@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM ubuntu
 
 # 安装基础依赖和编译工具
 RUN apt-get update && apt-get install -y \
