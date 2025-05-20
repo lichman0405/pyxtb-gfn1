@@ -2,19 +2,23 @@
 # Author: Shibo Li
 # Date: 2025-05-15
 
+# app/config.py
+
 from pathlib import Path
 
-# base directory to store job data
-BASE_DIR: Path = Path("jobs")
+# 工作目录，用于存放任务结果
+BASE_DIR = Path("/app/jobs")
 
-# default optimization parameters
-DEFAULT_CHARGE: int = 0
-DEFAULT_UHF: int = 0
-DEFAULT_GFN: int = 1  # GFN1-xTB
-DEFAULT_FMAX: float = 0.1
+# 默认优化参数
+DEFAULT_CHARGE = 0
+DEFAULT_UHF = 0
+DEFAULT_GFN = 1
 
-# optimization control block content for fmax = 0.1
-OPT_BLOCK: str = """$opt
+# xTB 可执行文件路径
+XTB_EXEC = "/usr/local/bin/xtb"  # 可通过环境变量覆盖，或修改 Dockerfile 保持一致
+
+# 优化控制块（fmax = 0.1）
+OPT_BLOCK = """$opt
 tight=0
 xtol=0.1
 $end

@@ -3,14 +3,12 @@
 # Date: 2025-05-15
 
 # app/api.py
-# This file defines the FastAPI routes for geometry optimization and result download.
 
 import shutil
-from pathlib import Path
 from fastapi import APIRouter, UploadFile, File, Form
 from fastapi.responses import FileResponse, JSONResponse
 from app.logger import logger
-from app.schemas import OptimizeParams, OptimizeResponse, ErrorResponse
+from app.schemas import OptimizeResponse, ErrorResponse
 from app.core import run_xtb_optimization
 from app.config import BASE_DIR
 
@@ -29,6 +27,7 @@ async def optimize(
         contents = await file.read()
         result = run_xtb_optimization(
             file_bytes=contents,
+            filename=file.filename,  # 
             charge=charge,
             uhf=uhf,
             gfn=gfn
