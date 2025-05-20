@@ -50,12 +50,14 @@ def run_xtb_optimization(
     # Construct xtb command
     xtb = Command(xtb_path)
     cmd = [
-        str(input_xyz),
-        "--opt",
-        "--gfn", str(gfn),
-        "--charge", str(charge),
-        "--uhf", str(uhf)
+    str(input_xyz),
+    "--opt",
+    "--namespace", "off",  # ← 修复原子符号乱码
+    "--gfn", str(gfn),
+    "--charge", str(charge),
+    "--uhf", str(uhf)
     ]
+
 
     try:
         xtb(

@@ -15,7 +15,7 @@ DEFAULT_FMAX: float = 0.1
 
 # optimization control block content for fmax = 0.1
 OPT_BLOCK: str = """$opt
-                        tight=0
-                        xtol=0.1
-                    $end
-                """
+tight=0
+xtol=0.1
+$end
+"""
