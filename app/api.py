@@ -27,7 +27,7 @@ async def optimize(
         contents = await file.read()
         result = run_xtb_optimization(
             file_bytes=contents,
-            filename=file.filename,  # 
+            filename=file.filename,  #  # type: ignore
             charge=charge,
             uhf=uhf,
             gfn=gfn

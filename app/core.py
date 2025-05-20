@@ -19,6 +19,18 @@ def run_xtb_optimization(
     gfn: int = DEFAULT_GFN,
     xtb_path: str = XTB_EXEC
 ) -> dict:
+    """
+    Run xTB optimization on the uploaded file.
+    args:
+        file_bytes (bytes): The bytes of the uploaded file.
+        filename (str): The name of the uploaded file.
+        charge (int): The charge of the molecule.
+        uhf (int): The UHF value.
+        gfn (int): The GFN level.
+        xtb_path (str): Path to the xTB executable.
+    returns:
+        dict: A dictionary containing the job ID, status, and other information.
+    """
     job_id = generate_job_id()
     job_path = create_job_dir(job_id)
     input_xyz = job_path / filename
@@ -35,9 +47,8 @@ def run_xtb_optimization(
 
     xtb = Command(xtb_path)
     cmd = [
-        filename,  # ✅ 使用真实文件名
+        filename,  
         "--opt",
-        "--namespace", "off",
         "--gfn", str(gfn),
         "--charge", str(charge),
         "--uhf", str(uhf)
