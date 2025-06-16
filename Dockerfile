@@ -27,11 +27,12 @@ ENV LC_ALL=en_US.UTF-8
 
 WORKDIR /opt
 
-RUN git clone https://github.com/grimme-lab/xtb.git && \
+RUN git clone --branch v6.5.1 https://github.com/grimme-lab/xtb.git && \
     cd xtb && \
     cmake -B_build -S. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=gfortran && \
     ninja -C _build && \
     ninja -C _build install
+
 
 ENV XTBPATH=/usr/local/share/xtb \
     OMP_STACKSIZE=4G \
