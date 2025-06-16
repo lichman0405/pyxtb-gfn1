@@ -2,7 +2,9 @@ FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
     build-essential \
     cmake \
     ninja-build \
@@ -11,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     wget \
     git \
+    ca-certificates \
     python3 \
     python3-pip \
     python3-venv \
