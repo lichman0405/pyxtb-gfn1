@@ -1,0 +1,9 @@
+services:
+  xtbopt-api:
+    build: .
+    container_name: xtbopt-api
+    ports:
+      - "4548:8000"
+    volumes:
+      - ./jobs:/app/jobs
+    restart: unless-stopped
