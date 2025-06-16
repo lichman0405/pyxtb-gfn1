@@ -1,7 +1,31 @@
-# xTB Geometry Optimization API
+<div align="center">
+  <a href="https://github.com/lichman0405/pyxtb-gfn1.git">
+    <img src="assets/edit_logo.png" alt="Logo" width="200px">
+  </a>
 
-基于 FastAPI 的轻量级结构优化服务，使用 GFN1-xTB 力场对 `.xyz` 文件结构进行几何优化。服务封装了编译安装的 [xTB](https://github.com/grimme-lab/xtb) 程序，并通过 REST API 提供高通量优化功能。
+  <h1 align="center">xTB Geometry Optimization API</h1>
 
+  <p align="center">
+    一个生产级的 FastAPI 服务，将强大的 xTB 结构分析功能封装为现代化、容器化的 HTTP 端点。
+    <br>
+    <a href="./README-en.md"><strong>English</strong></a>
+    ·
+    <a href="https://github.com/lichman0405/pyxtb-gfn1.git/issues">报告 Bug</a>
+    ·
+    <a href="https://github.com/lichman0405/pyxtb-gfn1.git/issues">提出新特性</a>
+  </p>
+</div>
+
+<div align="center">
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://www.python.org/)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat&logo=fastapi)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker)
+[![GitHub issues](https://img.shields.io/github/issues/lichman0405/pyxtb-gfn1.svg)](https://github.com/lichman0405/pyxtb-gfn1/issues)
+[![GitHub stars](https://img.shields.io/github/stars/lichman0405/pyxtb-gfn1.svg?style=social)](https://github.com/lichman0405/pyxtb-gfn1.git)
+
+</div>
 ---
 
 ## 🚀 功能特点
@@ -11,8 +35,8 @@
 - 编译安装 xTB，调用方式稳定、快速
 - 输出优化后结构、日志、能量信息
 - 所有任务自动归档至独立目录（基于 `job_id`）
-- 支持结果打包下载
-- 支持 Docker 一键部署
+- 可以直接下载优化后的文件。
+- 支持 docker compose 一键部署
 
 ---
 
