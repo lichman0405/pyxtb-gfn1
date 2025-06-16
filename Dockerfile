@@ -26,9 +26,10 @@ WORKDIR /opt
 RUN git clone https://github.com/grimme-lab/xtb.git && \
     cd xtb && \
     mkdir build && cd build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=gfortran && \
-    make -j$(nproc) && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=gfortran -DIMPORT_MCTC=ON -DUSE_LOCAL_BLAS=ON && \
+    make && \
     make install
+
 
 ENV XTBPATH=/usr/local/share/xtb \
     OMP_STACKSIZE=4G \
