@@ -8,7 +8,6 @@ from datetime import datetime
 from pathlib import Path
 from fastapi import UploadFile
 
-# base directory to store all job results
 BASE_DIR = Path("jobs")
 
 
@@ -51,15 +50,3 @@ def save_uploaded_file(file: UploadFile, save_path: Path) -> None:
     with open(save_path, "wb") as f:
         content = file.file.read()
         f.write(content)
-
-if __name__ == "__main__":
-    # Example usage
-    job_id = generate_job_id()
-    print(f"Generated Job ID: {job_id}")
-
-    job_dir = create_job_dir(job_id)
-    print(f"Created Job Directory: {job_dir}")
-
-    # Simulate saving an uploaded file
-    # In practice, you would get the file from a FastAPI endpoint
-    # save_uploaded_file(uploaded_file, job_dir / "input.xyz")

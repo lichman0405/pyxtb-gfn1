@@ -9,7 +9,7 @@ import re
 from sh import Command, ErrorReturnCode
 from app.logger import logger
 from app.utils import generate_job_id, create_job_dir
-from app.config import BASE_DIR, DEFAULT_CHARGE, DEFAULT_UHF, DEFAULT_GFN, OPT_BLOCK, XTB_EXEC
+from app.config import DEFAULT_CHARGE, DEFAULT_UHF, DEFAULT_GFN, OPT_BLOCK, XTB_EXEC
 
 
 def run_xtb_optimization(
