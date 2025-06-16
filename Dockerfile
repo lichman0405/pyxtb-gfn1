@@ -5,6 +5,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
+    ninja-build \
     gfortran \
     libopenblas-dev \
     pkg-config \
@@ -25,11 +26,9 @@ WORKDIR /opt
 
 RUN git clone https://github.com/grimme-lab/xtb.git && \
     cd xtb && \
-    mkdir build && cd build && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=gfortran -DIMPORT_MCTC=ON -DUSE_LOCAL_BLAS=ON && \
-    make && \
-    make install
-
+    cmake -B_build -S. -GNinja -DCMAKE_BUILD_TYPE=Release -DCMAKE_Fortran_COMPILER=gfortran && \
+    ninja -C _build && \
+    ninja -C _build install
 
 ENV XTBPATH=/usr/local/share/xtb \
     OMP_STACKSIZE=4G \
